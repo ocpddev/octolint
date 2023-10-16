@@ -17,7 +17,6 @@ const appInfo = (await app.octokit.request('GET /app')).data;
 console.log(`Authenticated as '${appInfo.name}'`);
 
 app.webhooks.on(['check_suite.requested', 'check_suite.rerequested'], async ({ octokit, payload }) => {
-  payload.check_suite.pull_requests;
   const { check_suite, repository } = payload;
   console.log(`Received a check suite request: ${check_suite.url}`);
   const checkRunResp = await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
