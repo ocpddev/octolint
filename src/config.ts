@@ -1,5 +1,5 @@
-const portStr = process.env.PORT;
-const port = portStr ? parseInt(portStr) : 3000;
+const portEnv = process.env.PORT;
+const port = portEnv ? parseInt(portEnv) : 3000;
 
 const appId = process.env.APP_ID;
 if (!appId) throw new Error('APP ID is not configured');
