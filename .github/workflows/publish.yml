@@ -1,4 +1,4 @@
-name: Build
+name: Publish
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
       - 'v*'
 
 jobs:
-  build:
+  publish:
     if: github.repository_owner == 'ocpddev'
     runs-on: ubuntu-latest
     steps:
