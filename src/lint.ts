@@ -1,5 +1,6 @@
 import load from '@commitlint/load';
 import lint from '@commitlint/lint';
+import format from '@commitlint/format';
 
 const config = await load.default({
   extends: ['@commitlint/config-conventional'],
@@ -9,10 +10,20 @@ const config = await load.default({
   },
 });
 
-export default function (msg: string) {
-  return lint.default(
-    msg,
-    config.rules,
-    config.parserPreset ? { parserOpts: config.parserPreset.parserOpts as any } : {},
+type LintResult = {
+  valid: boolean;
+  title: string;
+  summary: string;
+};
+
+export default async function (messages: string[]): Promise<LintResult> {
+  const results = await Promise.all(
+    messages.map((msg) => lint.default(msg, config.rules, config.parserPreset?.parserOpts ?? {})),
   );
+  const valid = results.every((r) => r.valid);
+  return {
+    valid,
+    title: valid ? 'Commit message is valid' : 'Commit message is invalid',
+    summary: format.default({ results }, { color: false }),
+  };
 }
