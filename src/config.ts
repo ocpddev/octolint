@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 
 const portStr = process.env.PORT;
-if (!portStr) throw new Error('Port is not configured');
-const port = parseInt(portStr);
+const port = portStr ? parseInt(portStr) : 3000;
 
 const appId = process.env.APP_ID;
 if (!appId) throw new Error('APP ID is not configured');
