@@ -1,9 +1,12 @@
 import './env.js';
 import config from './config.js';
+
 import { App } from 'octokit';
 import { createNodeMiddleware } from '@octokit/webhooks';
 import http from 'http';
-import on_pr from './pr.js';
+
+import { register } from './mod.js';
+import commit from './commit/index.js';
 
 const app = new App({
   appId: config.appId,
@@ -16,7 +19,7 @@ const app = new App({
 const appInfo = (await app.octokit.request('GET /app')).data;
 console.log(`Authenticated as '${appInfo.name}'`);
 
-on_pr(app);
+register(app, commit);
 
 const middleware = createNodeMiddleware(app.webhooks, { path: '/' });
 http.createServer(middleware).listen(config.port, () => {
