@@ -1,6 +1,6 @@
 {
   "name": "octolint",
-  "version": "0.0.0",
+  "version": "0.4.1",
   "description": "A linter for GitHub!",
   "type": "module",
   "exports": "./dist/app.js",
