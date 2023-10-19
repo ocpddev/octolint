@@ -12,7 +12,7 @@ export default function (app: App) {
   );
   app.webhooks.on(['check_suite.requested', 'check_suite.rerequested'], ({ octokit, payload }) => {
     // Pull requests have a different linting process
-    if (payload.check_suite.pull_requests) return;
+    if (payload.check_suite.pull_requests.length) return;
     return withinCheckRun(octokit, payload.repository, payload.check_suite.head_sha, () =>
       // we only lint the current commit message if it is not in a pull request
       lint([payload.check_suite.head_commit.message]),
