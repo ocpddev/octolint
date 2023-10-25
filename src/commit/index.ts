@@ -21,14 +21,15 @@ export default function (app: App) {
 }
 
 async function lintPullRequest(octokit: App['octokit'], repo: Repository, pr: PullRequest): Promise<LintResult> {
-  console.log(`Linting commits for PR ${pr.url}`);
+  console.log(`Linting PR ${pr.url}`);
   const commits = await octokit.paginate('GET /repos/{owner}/{repo}/pulls/{pull_number}/commits', {
     owner: repo.owner.login,
     repo: repo.name,
     pull_number: pr.number,
     per_page: 100,
   });
-  return lint(commits.map((c) => c.commit.message));
+  const commitMessages = commits.map((c) => c.commit.message);
+  return lint([pr.title, ...commitMessages]);
 }
 
 async function withinCheckRun(
