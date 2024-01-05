@@ -12,7 +12,7 @@
   "private": true,
   "dependencies": {
     "@commitlint/config-conventional": "^18.4.3",
-    "@commitlint/format": "^18.4.3",
+    "@commitlint/format": "^18.4.4",
     "@commitlint/lint": "^18.4.3",
     "@commitlint/load": "^18.4.3",
     "dotenv": "^16.3.1",
