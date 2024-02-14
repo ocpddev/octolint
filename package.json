@@ -27,7 +27,7 @@
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "smee-client": "^2.0.1",
     "typescript": "^5.3.3"
   }
