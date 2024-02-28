@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@commitlint/config-conventional": "^18.6.0",
+    "@commitlint/config-conventional": "^19.0.3",
     "@commitlint/format": "^18.6.0",
     "@commitlint/lint": "^18.6.0",
     "@commitlint/load": "^18.6.0",
