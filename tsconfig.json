@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "lib": ["es2021", "dom"],
-    "target": "es2021",
-    "module": "Node16",
+    "lib": [
+      "es2021",
+      "dom"
+    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "sourceMap": true,
     "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "dist"
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
