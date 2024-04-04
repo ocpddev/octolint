@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "description": "A linter for GitHub!",
   "type": "module",
-  "exports": "./dist/app.js",
   "scripts": {
     "build": "tsc -p .",
     "build:watch": "tsc -w -p .",
-    "lint": "eslint . --ext .ts",
+    "lint": "prettier --check . && eslint --ext .ts .",
+    "lint:fix": "prettier --write . && eslint --ext .ts --fix .",
     "start": "npm run build && node dist/app.js"
   },
   "private": true,
@@ -16,14 +16,14 @@
     "@commitlint/format": "^19.0.3",
     "@commitlint/lint": "^19.1.0",
     "@commitlint/load": "^19.2.0",
+    "octokit": "^3.1.2",
     "@octokit/webhooks": "^13.2.1",
-    "dotenv": "^16.4.5",
-    "octokit": "^3.1.2"
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@types/node": "^20.12.4",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.0.1",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
