@@ -1,9 +1,8 @@
 import './env.js';
-import config from './config.js';
 
-import { App } from 'octokit';
-import { createNodeMiddleware } from '@octokit/webhooks';
+import { App, createNodeMiddleware } from 'octokit';
 import http from 'http';
+import config from './config.js';
 
 import { register } from './mod.js';
 import commit from './commit/index.js';
@@ -21,7 +20,7 @@ console.log(`Authenticated as '${appInfo.name}'`);
 
 register(app, commit);
 
-const middleware = createNodeMiddleware(app.webhooks, { path: '/' });
+const middleware = createNodeMiddleware(app);
 http.createServer(middleware).listen(config.port, () => {
   console.log(`Listening on http://0.0.0.0:${config.port}`);
 });

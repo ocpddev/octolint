@@ -1,8 +1,8 @@
 import load from '@commitlint/load';
-import { default as _lint } from '@commitlint/lint';
+import _lint from '@commitlint/lint';
 import format from '@commitlint/format';
 
-const config = await load.default({
+const config = await load({
   extends: ['@commitlint/config-conventional'],
   rules: {
     'footer-max-line-length': [0],
@@ -18,12 +18,12 @@ export type LintResult = {
 
 export async function lint(messages: string[]): Promise<LintResult> {
   const results = await Promise.all(
-    messages.map((msg) => _lint.default(msg, config.rules, config.parserPreset?.parserOpts ?? {})),
+    messages.map((msg) => _lint(msg, config.rules, config.parserPreset?.parserOpts ?? {})),
   );
   const valid = results.every((r) => r.valid);
   return {
     valid,
     title: valid ? 'Commit message is valid' : 'Commit message is invalid',
-    summary: format.default({ results }, { color: false }),
+    summary: format({ results }, { color: false }),
   };
 }

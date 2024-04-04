@@ -1,24 +1,9 @@
 import { App } from 'octokit';
-import { PullRequest, Repository } from '@octokit/webhooks-types';
+import { EmitterWebhookEvent } from '@octokit/webhooks';
 import { lint, LintResult } from './lint.js';
 
-export default function (app: App) {
-  app.webhooks.on(
-    ['pull_request.opened', 'pull_request.reopened', 'pull_request.synchronize'],
-    ({ octokit, payload }) =>
-      withinCheckRun(octokit, payload.repository, payload.pull_request.head.sha, () =>
-        lintPullRequest(octokit, payload.repository, payload.pull_request),
-      ),
-  );
-  app.webhooks.on(['check_suite.requested', 'check_suite.rerequested'], ({ octokit, payload }) => {
-    // Pull requests have a different linting process
-    if (payload.check_suite.pull_requests.length) return;
-    return withinCheckRun(octokit, payload.repository, payload.check_suite.head_sha, () =>
-      // we only lint the current commit message if it is not in a pull request
-      lint([payload.check_suite.head_commit.message]),
-    );
-  });
-}
+type Repository = EmitterWebhookEvent<'pull_request'>['payload']['repository']
+type PullRequest = EmitterWebhookEvent<'pull_request'>['payload']['pull_request']
 
 async function lintPullRequest(octokit: App['octokit'], repo: Repository, pr: PullRequest): Promise<LintResult> {
   console.log(`Linting PR ${pr.url}`);
@@ -42,7 +27,7 @@ async function withinCheckRun(
     owner: repo.owner.login,
     repo: repo.name,
     name: 'Commit Lint',
-    head_sha: head_sha,
+    head_sha,
     status: 'in_progress',
   });
   const result = await fn();
@@ -55,5 +40,23 @@ async function withinCheckRun(
       title: result.title,
       summary: result.summary,
     },
+  });
+}
+
+export default function register(app: App) {
+  app.webhooks.on(
+    ['pull_request.opened', 'pull_request.reopened', 'pull_request.synchronize'],
+    ({ octokit, payload }) =>
+      withinCheckRun(octokit, payload.repository, payload.pull_request.head.sha, () =>
+        lintPullRequest(octokit, payload.repository, payload.pull_request),
+      ),
+  );
+  app.webhooks.on(['check_suite.requested', 'check_suite.rerequested'], ({ octokit, payload }) => {
+    // Pull requests have a different linting process
+    if (payload.check_suite.pull_requests.length) return;
+    return withinCheckRun(octokit, payload.repository, payload.check_suite.head_sha, () =>
+      // we only lint the current commit message if it is not in a pull request
+      lint([payload.check_suite.head_commit.message]),
+    );
   });
 }
