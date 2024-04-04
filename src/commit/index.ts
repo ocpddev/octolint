@@ -2,8 +2,8 @@ import { App } from 'octokit';
 import { EmitterWebhookEvent } from '@octokit/webhooks';
 import { lint, LintResult } from './lint.js';
 
-type Repository = EmitterWebhookEvent<'pull_request'>['payload']['repository']
-type PullRequest = EmitterWebhookEvent<'pull_request'>['payload']['pull_request']
+type Repository = EmitterWebhookEvent<'pull_request'>['payload']['repository'];
+type PullRequest = EmitterWebhookEvent<'pull_request'>['payload']['pull_request'];
 
 async function lintPullRequest(octokit: App['octokit'], repo: Repository, pr: PullRequest): Promise<LintResult> {
   console.log(`Linting PR ${pr.url}`);
