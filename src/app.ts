@@ -1,5 +1,3 @@
-import './env.js';
-
 import { App } from 'octokit';
 import { createNodeMiddleware } from '@octokit/webhooks';
 import http from 'http';
@@ -21,6 +19,9 @@ console.log(`Authenticated as '${appInfo.name}'`);
 
 register(app, commit);
 
+// we only need webhook middleware in this app
+// by default, octokit will also register OAuth handlers,
+// which we don't need, and it requires additional setup
 const middleware = createNodeMiddleware(app.webhooks);
 http.createServer(middleware).listen(config.port, () => {
   console.log(`Listening on http://0.0.0.0:${config.port}`);
